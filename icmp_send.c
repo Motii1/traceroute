@@ -4,7 +4,7 @@
 #include <netinet/in.h>
 #include <stdlib.h>
 #include <strings.h>
-#include <stdio.h>
+
 u_int16_t compute_icmp_checksum (const void *buff, int length)
 {
 	u_int32_t sum;
