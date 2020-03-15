@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-std=c99 -Wextra -Wall
 
-traceroute: traceroute.o
+traceroute: main.o
 	$(CC) $(CFLAGS) -o traceroute $^
 
 clean:
