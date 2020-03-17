@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-std=c99 -Wextra -Wall
+CFLAGS=-std=gnu99 -Wextra -Wall
 
 traceroute: main.o icmp_send.o icmp_receive.o
 	$(CC) $(CFLAGS) -o traceroute $^
