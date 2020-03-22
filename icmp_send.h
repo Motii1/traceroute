@@ -5,6 +5,6 @@
 
 u_int16_t compute_icmp_checksum(const void *buff, int length);
 
-int send_packet(int sockfd,int ttl, char *ip, int pid);
+int send_packet(int sockfd, int ttl, char *ip, int pid);
 
 #endif
