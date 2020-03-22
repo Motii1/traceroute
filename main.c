@@ -1,4 +1,5 @@
 #include "icmp_send.h"
+#include "icmp_receive.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <arpa/inet.h>
@@ -8,7 +9,7 @@
 #include <unistd.h>
 
 #define MAX_TTL 30
-#define TIMEOUT 1000
+#define TIMEOUT 1
 
 int main(int argc, char **argv) {
     if (argc != 2) {
@@ -28,14 +29,26 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
 
+    printf("traceroute to: %s\n", argv[1]);
+
     int pid = getpid();
     const int PACKETS_TO_SEND = 3;
-    for (int ttl = 0; ttl < MAX_TTL; ++ttl) {
+    for (int ttl = 1; ttl <= MAX_TTL; ++ttl) {
         for (int i = 0; i < PACKETS_TO_SEND; ++i) {
-            if (send_packet(sockfd, ttl, destination, pid) < 0) {
-                fprintf(stderr, "sendto error: %s\n", strerror(errno));
+            if (send_packet(sockfd, ttl, argv[1], pid) < 0) {
+                fprintf(stderr, "error when sending packets: %s\n", strerror(errno));
                 return EXIT_FAILURE;
             }
+        }
+
+        int status = receive_packets_from_socket(pid, sockfd, TIMEOUT, ttl, PACKETS_TO_SEND);
+        if (status < 0) {
+            fprintf(stderr, "error when receiving packets: %s\n", strerror(errno));
+            return EXIT_FAILURE;
+        }
+
+        if (status == 1) {
+            break;
         }
     }
 
