@@ -110,7 +110,7 @@ int receive_packets_from_socket(int pid, int sockfd, int timeout, int ttl,
 		if (packets == num_of_packets || got_echo_reply)
 			print_avg_time(times, packets);
 		else
-			printf("%d. ???\n", *line_number);
+			printf("???\n");
 		*line_number = *line_number + 1;
 	} else {
 		for (int i = 0; i < packets; ++i) {
