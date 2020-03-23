@@ -114,13 +114,12 @@ int receive_packets_from_socket(int pid, int sockfd, int timeout, int ttl,
 			printf("???\n");
 	} else {
 		for (int i = 0; i < packets; ++i) {
-			printf("%s  \n", sender_ip_str[i]);
+			printf("%s  ", sender_ip_str[i]);
 		}
 		if (packets == num_of_packets)
 			print_avg_time(times, packets);
 		else
 			printf("???\n");
-		print_avg_time(times, packets);
 	}
 	return got_echo_reply ? 1 : 0;
 }
