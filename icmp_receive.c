@@ -101,22 +101,26 @@ int receive_packets_from_socket(int pid, int sockfd, int timeout, int ttl,
 		}
 	}
 
+	printf("%d  ", *line_number);
+	*line_number = *line_number + 1;
 	if (packets == 0) {
-		printf("%d. *\n", *line_number);
-		*line_number = *line_number + 1;
+		printf("*\n");
 	} else if (!is_more_than_one_router) {
-		printf("%d. %s  ", *line_number, sender_ip_str[0]);
+		printf("%s  ", sender_ip_str[0]);
 
 		if (packets == num_of_packets || got_echo_reply)
 			print_avg_time(times, packets);
 		else
 			printf("???\n");
-		*line_number = *line_number + 1;
 	} else {
 		for (int i = 0; i < packets; ++i) {
-			printf("%d. %s  %.2f ms\n", *line_number, sender_ip_str[i], times[i].tv_usec / 1000.0);
-			*line_number = *line_number + 1;
+			printf("%s  \n", sender_ip_str[i]);
 		}
+		if (packets == num_of_packets)
+			print_avg_time(times, packets);
+		else
+			printf("???\n");
+		print_avg_time(times, packets);
 	}
 	return got_echo_reply ? 1 : 0;
 }
